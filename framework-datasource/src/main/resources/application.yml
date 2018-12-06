@@ -1,0 +1,22 @@
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    master:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      initialize: true #指定初始化数据源，是否用data.sql来初始化，默认: true
+      name: mac-test
+      url: jdbc:mysql://127.0.0.1:3306/mac-test?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: root
+    slave:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      initialize: true
+      name: mac-test3
+      url: jdbc:mysql://127.0.0.1:3306/mac-test3?useUnicode=true&characterEncoding=utf-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: root
+server:
+  port: 8081

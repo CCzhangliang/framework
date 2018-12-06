@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.framework.mapper.slave.HobbyMapper" >
+  <resultMap id="baseResultMap" type="com.zl.framework.entity.Hobby" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="hobby" property="hobby" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,hobby,create_time
+  </sql>
+  <!-- 查询所有的信息   -->
+  <select id="listAllHobby" resultMap="baseResultMap">
+    select 
+    <include refid="Base_Column_List" /> 
+    from t_hobby 
+  </select>
+  <!-- 根据属性条件查询的信息   -->
+  <select id="listHobbyByCondition" parameterType="map"  resultMap="baseResultMap">
+    select 
+    <include refid="Base_Column_List" /> 
+    from t_hobby 
+    <where> 1=1  
+      <if test="createTime != null and createTime !='' ">
+        AND create_time = #{createTime}  
+      </if> 
+      <if test="id != null and id !='' ">
+        AND id = #{id,jdbcType=BIGINT}  
+      </if> 
+      <if test="hobby != null and hobby !='' ">
+        AND hobby = #{hobby, jdbcType=VARCHAR}  
+      </if> 
+   </where>
+  </select>
+  <!-- 新增的信息  -->
+  <insert id="insertHobby" parameterType="com.zl.framework.entity.Hobby">
+    insert into t_hobby ( create_time, id, hobby)
+    values ( #{createTime}, #{id,jdbcType=BIGINT}, #{hobby, jdbcType=VARCHAR}) 
+  </insert>
+  <!--  根据PrimaryKey修改的信息 -->
+  <update id="updateHobbyByPrimaryKey" parameterType="com.zl.framework.entity.Hobby">
+    update t_hobby  
+    set            create_time = #{createTime},
+         hobby = #{hobby, jdbcType=VARCHAR}  
+    where id = #{id,jdbcType=BIGINT} 
+  </update>
+  <!--   根据PrimaryKey删除的信息-->
+  <delete id="deleteHobbyByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_hobby  
+    where id = #{id,jdbcType=BIGINT} 
+  </delete>
+</mapper>
+

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.framework.mapper.master.WebControlMapper" >
+  <resultMap id="baseResultMap" type="com.zl.framework.entity.WebControl" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="web_type" property="webType" jdbcType="TINYINT" />
+    <result column="control_limit_num" property="controlLimitNum" jdbcType="INTEGER" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,web_type,control_limit_num,create_id,create_time,update_id,update_time
+  </sql>
+  <!-- 查询所有前端访问限制的信息   -->
+  <select id="listAllWebControl" resultMap="baseResultMap">
+    select 
+    <include refid="Base_Column_List" /> 
+    from t_web_control 
+  </select>
+  <!-- 根据属性条件查询前端访问限制的信息   -->
+  <select id="listWebControlByCondition" parameterType="map"  resultMap="baseResultMap">
+    select 
+    <include refid="Base_Column_List" /> 
+    from t_web_control 
+    <where> 1=1  
+      <if test="createTime != null and createTime !='' ">
+        AND create_time = #{createTime, jdbcType=BIGINT}  
+      </if> 
+      <if test="updateId != null and updateId !='' ">
+        AND update_id = #{updateId, jdbcType=VARCHAR}  
+      </if> 
+      <if test="id != null and id !='' ">
+        AND id = #{id,jdbcType=BIGINT}  
+      </if> 
+      <if test="webType != null and webType !='' ">
+        AND web_type = #{webType, jdbcType=TINYINT}  
+      </if> 
+      <if test="createId != null and createId !='' ">
+        AND create_id = #{createId, jdbcType=VARCHAR}  
+      </if> 
+      <if test="updateTime != null and updateTime !='' ">
+        AND update_time = #{updateTime, jdbcType=BIGINT}  
+      </if> 
+      <if test="controlLimitNum != null and controlLimitNum !='' ">
+        AND control_limit_num = #{controlLimitNum, jdbcType=INTEGER}  
+      </if> 
+   </where>
+  </select>
+  <!-- 新增前端访问限制的信息  -->
+  <insert id="insertWebControl" parameterType="com.zl.framework.entity.WebControl">
+    insert into t_web_control ( create_time, update_id, id, web_type, create_id, update_time, control_limit_num)
+    values ( #{createTime, jdbcType=BIGINT}, #{updateId, jdbcType=VARCHAR}, #{id,jdbcType=BIGINT}, #{webType, jdbcType=TINYINT}, #{createId, jdbcType=VARCHAR}, #{updateTime, jdbcType=BIGINT}, #{controlLimitNum, jdbcType=INTEGER}) 
+  </insert>
+  <!--  根据PrimaryKey修改前端访问限制的信息 -->
+  <update id="updateWebControlByPrimaryKey" parameterType="com.zl.framework.entity.WebControl">
+    update t_web_control  
+    set            create_time = #{createTime, jdbcType=BIGINT},
+         update_id = #{updateId, jdbcType=VARCHAR},
+         web_type = #{webType, jdbcType=TINYINT},
+         create_id = #{createId, jdbcType=VARCHAR},
+         update_time = #{updateTime, jdbcType=BIGINT},
+         control_limit_num = #{controlLimitNum, jdbcType=INTEGER}  
+    where id = #{id,jdbcType=BIGINT} 
+  </update>
+  <!--   根据PrimaryKey删除前端访问限制的信息-->
+  <delete id="deleteWebControlByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_web_control  
+    where id = #{id,jdbcType=BIGINT} 
+  </delete>
+</mapper>
+

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.framework.mapper.master.DictMapper" >
+  <resultMap id="baseResultMap" type="com.zl.framework.entity.Dict" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dict_class" property="dictClass" jdbcType="VARCHAR" />
+    <result column="dict_value" property="dictValue" jdbcType="INTEGER" />
+    <result column="dict_name_cn" property="dictNameCn" jdbcType="VARCHAR" />
+    <result column="dict_name_en" property="dictNameEn" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,dict_class,dict_value,dict_name_cn,dict_name_en
+  </sql>
+  <!-- 查询所有数据字典的信息   -->
+  <select id="listAllDict" resultMap="baseResultMap">
+    select 
+    <include refid="Base_Column_List" /> 
+    from t_dict 
+  </select>
+  <!-- 根据属性条件查询数据字典的信息   -->
+  <select id="listDictByCondition" parameterType="map"  resultMap="baseResultMap">
+    select 
+    <include refid="Base_Column_List" /> 
+    from t_dict 
+    <where> 1=1  
+      <if test="dictNameEn != null and dictNameEn !='' ">
+        AND dict_name_en = #{dictNameEn, jdbcType=VARCHAR}  
+      </if> 
+      <if test="id != null and id !='' ">
+        AND id = #{id,jdbcType=BIGINT}  
+      </if> 
+      <if test="dictNameCn != null and dictNameCn !='' ">
+        AND dict_name_cn = #{dictNameCn, jdbcType=VARCHAR}  
+      </if> 
+      <if test="dictValue != null and dictValue !='' ">
+        AND dict_value = #{dictValue, jdbcType=INTEGER}  
+      </if> 
+      <if test="dictClass != null and dictClass !='' ">
+        AND dict_class = #{dictClass, jdbcType=VARCHAR}  
+      </if> 
+   </where>
+  </select>
+  <!-- 新增数据字典的信息  -->
+  <insert id="insertDict" parameterType="com.zl.framework.entity.Dict">
+    insert into t_dict ( dict_name_en, id, dict_name_cn, dict_value, dict_class)
+    values ( #{dictNameEn, jdbcType=VARCHAR}, #{id,jdbcType=BIGINT}, #{dictNameCn, jdbcType=VARCHAR}, #{dictValue, jdbcType=INTEGER}, #{dictClass, jdbcType=VARCHAR}) 
+  </insert>
+  <!--  根据PrimaryKey修改数据字典的信息 -->
+  <update id="updateDictByPrimaryKey" parameterType="com.zl.framework.entity.Dict">
+    update t_dict  
+    set            dict_name_en = #{dictNameEn, jdbcType=VARCHAR},
+         dict_name_cn = #{dictNameCn, jdbcType=VARCHAR},
+         dict_value = #{dictValue, jdbcType=INTEGER},
+         dict_class = #{dictClass, jdbcType=VARCHAR}  
+    where id = #{id,jdbcType=BIGINT} 
+  </update>
+  <!--   根据PrimaryKey删除数据字典的信息-->
+  <delete id="deleteDictByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_dict  
+    where id = #{id,jdbcType=BIGINT} 
+  </delete>
+</mapper>
+
